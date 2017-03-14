@@ -8,6 +8,14 @@ r = sr.Recognizer()
 with sr.Microphone() as source:
     print("Say something!")
     audio = r.listen(source)
+
+ 	  #obtain audio from the microphone
+    
+    with sr.Microphone() as source:
+        r.adjust_for_ambient_noise(source)
+        print("Say something!")
+        audio = r.listen(source)
+   
  
 # Speech recognition using Google Speech Recognition
 try:
@@ -21,5 +29,8 @@ except sr.UnknownValueError:
 except sr.RequestError as e:
     print("Could not request results from Google Speech Recognition service; {0}".format(e))
 
-a=open("text.txt" , "w")
-a.write(word)
+a=open("s2t.txt" , "w")
+if not not word:
+	a.write(word)
+else:
+	print "oops"
