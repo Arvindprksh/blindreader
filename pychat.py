@@ -26,7 +26,7 @@ def readitaloudforprompt(string):
 	dest.write(string)
 	dest.close()
 	os.system('python ibmwatsonforprompt.py')
-	os.system('vlc --play-and-exit output_en-US_AllisonVoiceforprompt.wav')
+	os.system('vlc --no-one-instance --play-and-exit output_en-US_AllisonVoiceforprompt.wav')
 
 def chat(inp):
 	if((inp.find("start",0,len(inp))!=-1) and (inp.find("reading",0,len(inp))!=-1) ):
@@ -85,7 +85,7 @@ def chat(inp):
 		os.system('pkill -STOP vlc')
 		os.system('python pydictionary1.py')
 		os.system('python ibmwatsonfordict.py')
-		os.system('vlc --play-and-exit output_en-US_AllisonVoicefordict.wav')
+		os.system('vlc --no-one-instance --play-and-exit output_en-US_AllisonVoicefordict.wav')
 		os.system('pkill -CONT vlc')
 		return 1
 
@@ -96,11 +96,11 @@ def chat(inp):
 	else:
 		os.system('pkill -STOP vlc')
 		if(rand()==1):
-			readitaloud("i am sorry can you repeat what you just said")
+			readitaloudforprompt("i am sorry can you repeat what you just said")
 		elif(rand()==2):
-			readitaloud("Sorry, but i didnt get you.. can you come again?")
+			readitaloudforprompt("Sorry, but i didnt get you.. can you come again?")
 		elif(rand()==3):
-			readitaloud("ummm.. excuse me but i couldn't follow you.. come again?")
+			readitaloudforprompt("ummm.. excuse me but i couldn't follow you.. come again?")
 		os.system('pkill -CONT vlc')
 		return 1
 
@@ -149,17 +149,18 @@ def main():
 	while(val!=0):
 		os.system('python googlestt.py')
 		src=open("s2t.txt")
-		inp=src.read()
+		inp1=src.read()
 		src.close()
-		#if((inp1.find("okay",0,len(inp1))!=-1) and ((inp1.find("Google",0,len(inp1))!=-1) or (inp1.find("google",0,len(inp1))!=-1))):
-			#print "this just in :P"
+		if((inp1.find("okay",0,len(inp1))!=-1) and ((inp1.find("Google",0,len(inp1))!=-1) or (inp1.find("google",0,len(inp1))!=-1))):
+			print "this just in :P"
 			#os.system('vlc-ctrl pause')
-			#readitaloudforprompt("Yeah.. How can i be of service to you...")
-			#os.system('python googlestt.py')
-			#src=open("s2t.txt")
-			#inp=src.read()
-			#src.close()
-			#os.system('pkill -CONT vlc')
+			os.system('pkill -STOP vlc')
+			readitaloudforprompt("Yeah.. How can i be of service to you...")
+			os.system('python googlestt.py')
+			src=open("s2t.txt")
+			inp=src.read()
+			src.close()
+			os.system('pkill -CONT vlc')
 		val=chat(inp)
 
 
